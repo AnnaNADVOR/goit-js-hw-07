@@ -3,9 +3,11 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryRef = document.querySelector(".gallery");
 
-const imgCard = galleryItems.map(({ preview, description }, index) => `
+const imgCard = galleryItems.map(({ preview, original, description }) => `
     <li class="gallery__item">
-        <img class = "gallery__image" src="${preview}" loading="lazy" alt = "${description}" id = "${index}">
+        <a class = "gallery__link">
+            <img class = "gallery__image" src="${preview}" data-source = "${original}" alt = "${description}" >
+        </a>
     </li>
 `).join('');
 
@@ -13,16 +15,26 @@ galleryRef. insertAdjacentHTML("beforeend", imgCard);
 galleryRef.addEventListener('click', onImgClick); 
 
 function onImgClick(event) {
+
     if (event.target.nodeName !== "IMG") {
         return;
     }
-    const id = event.target.getAttribute('id');
-    const imgUrl = galleryItems[id].original;
+  
+    const imgSrc = event.target.getAttribute('data-source');
     const instance = basicLightbox.create(`
-	    <img src = "${imgUrl}" width = "800" height = "600">
+	    <img src = "${imgSrc}" width = "800" height = "600">
     `);
     instance.show();
-  
+
+    document.addEventListener("keydown", onCloseModal);
+    
+    function onCloseModal (event) {
+        if (event.code === 'Escape') {
+            instance.close();
+            document.removeEventListener("keydown", onCloseModal);
+        }
+};
+    
 }
 
 console.log(galleryItems);
