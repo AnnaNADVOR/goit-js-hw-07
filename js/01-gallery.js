@@ -5,8 +5,8 @@ const galleryRef = document.querySelector(".gallery");
 
 const imgCard = galleryItems.map(({ preview, original, description }) => `
     <li class="gallery__item">
-        <a class = "gallery__link" href"${original}" >
-            <img class = "gallery__image" src="${preview}" data-source = "${original}" alt = "${description}" >
+        <a class = "gallery__link" href = "${original}">
+            <img class = "gallery__image" src="${preview}" data-source = "${original}" alt = "${description}">
         </a>
     </li>
 `).join('');
@@ -15,8 +15,7 @@ galleryRef. insertAdjacentHTML("beforeend", imgCard);
 galleryRef.addEventListener('click', onImgClick); 
 
 function onImgClick(event) {
-   
-event.preventDefault()
+    event.preventDefault()
     if (event.target.nodeName !== "IMG") {
         return;
     }
@@ -35,7 +34,6 @@ event.preventDefault()
             document.removeEventListener("keydown", onCloseModal);
         }
 };
-    
 }
 
 console.log(galleryItems);
